@@ -1,4 +1,4 @@
-name: Build ChatBot Installer
+name: Build and Package App
 
 permissions:
   contents: write
@@ -6,7 +6,7 @@ permissions:
 on:
   push:
     tags:
-      - 'v[0-9]+.*'
+      - v[0-9]+.*
 
 jobs:
   build:
@@ -19,30 +19,26 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.9'
+          python-version: '3.x'
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
           pip install pyinstaller
 
-      - name: Build EXE with PyInstaller
-        run: |
-          pyinstaller --onefile main.py
-          move dist\main.exe output\main.exe
+      - name: Build app with PyInstaller
+        run: pyinstaller --distpath ./dist --workpath ./build --specpath ./specs main.py
 
-      - name: Download and install Inno Setup
-        run: |
-          choco install innosetup
+      - name: Download Inno Setup
+        run: choco install innosetup
 
-      - name: Create installer with Inno Setup
+      - name: Create Inno Setup installer
         run: |
-          "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" inno_setup_script.iss
+          "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" /cc "installer_script.iss"
 
-      - name: Upload EXE to GitHub release
+      - name: Upload installer to GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: output\chatbot_installer.exe
+          files: output\ChatbotAIInstaller.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

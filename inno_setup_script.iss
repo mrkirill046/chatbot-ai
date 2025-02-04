@@ -1,20 +1,18 @@
 [Setup]
-AppName=ChatBot Application
+AppName=Chatbot AI
 AppVersion=1.0
-DefaultDirName={pf}\ChatBot
+DefaultDirName={pf}\Chatbot AI
+DefaultGroupName=Chatbot AI
 OutputDir=output
-OutputBaseFilename=chatbot_installer
+OutputBaseFilename=ChatbotAIInstaller
 Compression=lzma
 SolidCompression=yes
 
 [Files]
-Source: "output\*"; DestDir: "{app}"; Flags: ignoreversion
-Source: "requirements.txt"; DestDir: "{app}"; Flags: ignoreversion
-Source: "main.py"; DestDir: "{app}"; Flags: ignoreversion
-Source: "src\**\*"; DestDir: "{app}\src"; Flags: ignoreversion
+Source: "dist\*"; DestDir: "{app}"; Flags: recursesubdirs
 
 [Icons]
-Name: "{group}\ChatBot"; Filename: "{app}\main.exe"
+Name: "{group}\Chatbot AI"; Filename: "{app}\main.exe"
 
 [Run]
-Filename: "{app}\main.exe"; Description: "{cm:LaunchProgram,ChatBot}"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\main.exe"; Description: "{cm:LaunchProgram,Chatbot AI}"; Flags: nowait postinstall skipifsilent
