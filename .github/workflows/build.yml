@@ -34,9 +34,15 @@ jobs:
 
       - name: Create Inno Setup installer
         run: |
-          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "inno_setup_script.iss" 
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "inno_setup_script.iss"  
+
+      - name: Check files in output directory
+        run: |
+          echo "Listing files in output directory..."
+          dir output  
 
       - name: Upload installer to GitHub Release
+        if: success() && (Test-Path "output\ChatbotAIInstaller.exe")
         uses: softprops/action-gh-release@v1
         with:
           files: output\ChatbotAIInstaller.exe
