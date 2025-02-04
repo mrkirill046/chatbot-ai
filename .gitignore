@@ -1,5 +1,4 @@
 /output/
 /build/
 /dist/
-
-main.spec
+/specs/
