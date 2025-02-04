@@ -1,16 +1,16 @@
 name: Build ChatBot Installer
 
+permissions:
+  contents: write
+
 on:
   push:
     tags:
-      - 'v*.*.*'
-  pull_request:
-    branches:
-      - main
+      - 'v[0-9]+.*'
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
@@ -19,29 +19,38 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.11.9'
+          python-version: '3.9'
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pyinstaller
+          sudo apt-get update
+          sudo apt-get install -y wine
 
       - name: Build EXE with PyInstaller
         run: |
           pyinstaller --onefile main.py
-          move dist\main.exe output\main.exe
+          mv dist/main.exe output/main.exe
 
       - name: Download and install Inno Setup
         run: |
-          choco install innosetup
+          sudo apt-get install -y wine
+          wget https://jrsoftware.org/runscript.php?innosetup -O inno_setup.exe
+          wine inno_setup.exe /silent
 
       - name: Create installer with Inno Setup
         run: |
-          inno setup inno_setup_script.iss
+          wine inno-setup/innosetup inno_setup_script.iss
 
-      - name: Upload the installer
-        uses: actions/upload-artifact@v3
+      - name: Create ZIP archive
+        run: |
+          zip -9 -j output/chatbot_installer.zip output/chatbot_installer.exe
+
+      - name: Upload ZIP to GitHub release
+        uses: softprops/action-gh-release@v1
         with:
-          name: chatbot-installer
-          path: output\chatbot_installer.exe
+          files: output/chatbot_installer.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
