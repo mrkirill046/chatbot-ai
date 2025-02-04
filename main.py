@@ -1,8 +1,6 @@
 from src.scripts.chatbot import ChatBot
+from src.scripts.gui import show_chatbot_interface
 
 if __name__ == "__main__":
     chatbot = ChatBot()
-
-    while True:
-        user_input = input("Вы: ")
-        print(chatbot.respond(user_input))
+    show_chatbot_interface(chatbot)

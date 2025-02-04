@@ -18,3 +18,44 @@ DOCUMENTS = []
 
 INTENTS = json.load(open(INTENTS_PATH, "r", encoding="utf-8"))
 MODEL_EPOCHS = 300
+
+CHAT_WINDOW_STYLE = """
+    background-color: black;
+    color: white;
+    font-size: 14px;
+    padding: 10px;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+"""
+
+SCROLLBAR_STYLE = """
+    QScrollBar:vertical {
+        background: #2b2b2b;
+        width: 10px;
+        border-radius: 5px;
+    }
+    QScrollBar::handle:vertical {
+        background: #808080;
+        border-radius: 5px;
+    }
+    QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+        background: none;
+    }
+    QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
+        background: none;
+    }
+"""
+
+INPUT_FIELD_STYLE = """
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+"""
+
+SEND_BUTTON_STYLE = """
+    background-color: #0078d7;
+    color: white;
+    padding: 10px;
+    font-size: 14px;
+    border: none;
+"""
