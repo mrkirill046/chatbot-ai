@@ -19,7 +19,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.9'
+          python-version: '3.11.9'
 
       - name: Install dependencies
         run: |
@@ -41,7 +41,7 @@ jobs:
           inno setup inno_setup_script.iss
 
       - name: Upload the installer
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: chatbot-installer
           path: output\chatbot_installer.exe
