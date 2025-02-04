@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - name: Checkout repository
@@ -26,31 +26,23 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pyinstaller
-          sudo apt-get update
-          sudo apt-get install -y wine
 
       - name: Build EXE with PyInstaller
         run: |
           pyinstaller --onefile main.py
-          mv dist/main.exe output/main.exe
+          move dist\main.exe output\main.exe
 
       - name: Download and install Inno Setup
         run: |
-          sudo apt-get install -y wine
-          wget https://jrsoftware.org/runscript.php?innosetup -O inno_setup.exe
-          wine inno_setup.exe /silent
+          choco install innosetup
 
       - name: Create installer with Inno Setup
         run: |
-          wine inno-setup/innosetup inno_setup_script.iss
+          "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" inno_setup_script.iss
 
-      - name: Create ZIP archive
-        run: |
-          zip -9 -j output/chatbot_installer.zip output/chatbot_installer.exe
-
-      - name: Upload ZIP to GitHub release
+      - name: Upload EXE to GitHub release
         uses: softprops/action-gh-release@v1
         with:
-          files: output/chatbot_installer.zip
+          files: output\chatbot_installer.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
