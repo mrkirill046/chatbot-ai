@@ -16,7 +16,7 @@ class ChatBot:
 
         self.model, self.words, self.classes, self.label_encoder = load_or_train_model()
 
-    def predict_class(self, sentence):
+    def predict_class(self, sentence: str):
         """
         Predicts the class of the given sentence using the model.
 
@@ -32,7 +32,7 @@ class ChatBot:
 
         return prediction
 
-    def respond(self, sentence):
+    def respond(self, sentence: str):
         """
         Generates a response for the given sentence by predicting its class and selecting a random response
         from the corresponding intent in the predefined intents.

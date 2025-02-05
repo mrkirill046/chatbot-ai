@@ -1,6 +1,9 @@
 import json
 import os
 
+BOT_NAME = "Mika"
+APP_NAME = f"Chatbot AI - {BOT_NAME}"
+
 OUTPUT_DIR = "output"
 SRC_PATH = "src"
 
@@ -12,6 +15,8 @@ LABEL_ENCODER_PATH = os.path.join(OUTPUT_DIR, "label_encoder.pkl")
 JSONS_PATH = os.path.join(SRC_PATH, "jsons")
 INTENTS_PATH = os.path.join(JSONS_PATH, "intents.json")
 
+DEFAULT_SETTINGS_FILE = os.path.join(JSONS_PATH, "settings.json")
+
 WORDS = []
 CLASSES = []
 DOCUMENTS = []
@@ -19,43 +24,19 @@ DOCUMENTS = []
 INTENTS = json.load(open(INTENTS_PATH, "r", encoding="utf-8"))
 MODEL_EPOCHS = 300
 
-CHAT_WINDOW_STYLE = """
-    background-color: black;
-    color: white;
-    font-size: 14px;
-    padding: 10px;
-    border: 1px solid #aaa;
-    border-radius: 5px;
-"""
+BACKGROUND_COLOR = "black"
+TEXT_COLOR = "white"
+FONT_SIZE = "14px"
+PADDING = "10px"
+BORDER_COLOR = "#aaa"
+BORDER_RADIUS = "5px"
 
-SCROLLBAR_STYLE = """
-    QScrollBar:vertical {
-        background: #2b2b2b;
-        width: 10px;
-        border-radius: 5px;
-    }
-    QScrollBar::handle:vertical {
-        background: #808080;
-        border-radius: 5px;
-    }
-    QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
-        background: none;
-    }
-    QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {
-        background: none;
-    }
-"""
+SCROLLBAR_BACKGROUND = "#2b2b2b"
+SCROLLBAR_HANDLE = "#808080"
+SCROLLBAR_WIDTH = "10px"
 
-INPUT_FIELD_STYLE = """
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ddd;
-"""
+SEND_BUTTON_BACKGROUND = "#0078d7"
+SEND_BUTTON_PADDING = "10px"
 
-SEND_BUTTON_STYLE = """
-    background-color: #0078d7;
-    color: white;
-    padding: 10px;
-    font-size: 14px;
-    border: none;
-"""
+INPUT_FIELD_BORDER_COLOR = "#ddd"
+INPUT_FIELD_PADDING = "8px"

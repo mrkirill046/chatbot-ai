@@ -10,7 +10,7 @@ nltk.download("stopwords")
 lemmatizer = WordNetLemmatizer()
 
 
-def clean_up_sentence(sentence):
+def clean_up_sentence(sentence: str):
     """
     Cleans up a given sentence by tokenizing it, lemmatizing its words and converting them to lower case.
 
@@ -25,7 +25,7 @@ def clean_up_sentence(sentence):
     return [lemmatizer.lemmatize(w.lower()) for w in sentence_words]
 
 
-def bow(sentence, words):
+def bow(sentence: str, words: list):
     """
     Creates a bag-of-words representation of a sentence based on a predefined list of words.
 

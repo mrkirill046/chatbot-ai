@@ -10,7 +10,7 @@ from src.scripts.config import MODEL_PATH, WORDS_PATH, CLASSES_PATH, LABEL_ENCOD
 from src.scripts.preprocessing import preprocess_data, bow
 
 
-def create_model(input_size, output_size):
+def create_model(input_size: int, output_size: int):
     """
     Creates a model with the specified input and output size.
 
