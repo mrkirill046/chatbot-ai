@@ -15,7 +15,7 @@ LABEL_ENCODER_PATH = os.path.join(OUTPUT_DIR, "label_encoder.pkl")
 JSONS_PATH = os.path.join(SRC_PATH, "jsons")
 INTENTS_PATH = os.path.join(JSONS_PATH, "intents.json")
 
-DEFAULT_SETTINGS_FILE = os.path.join(JSONS_PATH, "settings.json")
+SETTINGS_FILE = os.path.join(JSONS_PATH, "settings.json")
 
 WORDS = []
 CLASSES = []

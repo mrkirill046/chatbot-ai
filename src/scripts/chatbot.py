@@ -1,10 +1,13 @@
 import numpy as np
 import random
 import datetime
+import spacy
 
 from src.scripts.preprocessing import bow
 from src.scripts.config import INTENTS
 from src.scripts.model import load_or_train_model
+from src.scripts.settings import load_setting
+from src.scripts.weather import get_weather
 
 
 class ChatBot:
@@ -15,6 +18,8 @@ class ChatBot:
         """
 
         self.model, self.words, self.classes, self.label_encoder = load_or_train_model()
+        self.settings = load_setting()
+        self.nlp = spacy.load("ru_core_news_lg")
 
     def predict_class(self, sentence: str):
         """
@@ -31,6 +36,25 @@ class ChatBot:
         prediction = self.model.predict(bow_input)
 
         return prediction
+
+    def extract_city(self, sentence):
+        """
+        Extracts the city from a given sentence using the spaCy NLP library.
+
+        Parameters:
+        sentence (str): The sentence from which to extract the city.
+
+        Returns:
+        str or None: The city name if found, otherwise None.
+        """
+
+        doc = self.nlp(sentence)
+
+        for ent in doc.ents:
+            if ent.label_ == "LOC":
+                return ent.lemma_.capitalize()
+
+        return None
 
     def respond(self, sentence: str):
         """
@@ -54,6 +78,25 @@ class ChatBot:
 
                 if tag == "time":
                     response = response.replace("{time}", datetime.datetime.now().strftime("%H:%M"))
+                elif tag == "weather":
+                    city = self.extract_city(sentence)
+
+                    if not city:
+                        response = "Пожалуйста, укажите корректное название города."
+                        return response
+
+                    weather_data = get_weather(city, self.settings["lang"], self.settings["units"])
+
+                    if weather_data:
+                        response = (
+                            f"Погода в {weather_data['city_name']}: {weather_data['weather']}, "
+                            f"температура: {weather_data['temperature']}°C, "
+                            f"влажность: {weather_data['humidity']}%, "
+                            f"давление: {weather_data['pressure']} hPa, "
+                            f"скорость ветра: {weather_data['wind_speed']} м/с."
+                        )
+                    else:
+                        response = "Не удалось получить данные о погоде. Попробуйте позже."
 
                 return response
 

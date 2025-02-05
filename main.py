@@ -1,9 +1,14 @@
 import argparse
 import sys
 
-from src.scripts.tools import load_setting, save_setting, start_bot, start_bot_gui, start_bot_web
+from dotenv import load_dotenv
+
+from src.scripts.settings import load_setting
+from src.scripts.tools import save_setting, start_bot, start_bot_gui, start_bot_web
 
 if __name__ == "__main__":
+    load_dotenv()
+
     parser = argparse.ArgumentParser()
 
     parser.add_argument("--no-gui", action="store_true", help="Запуск без GUI")
@@ -22,7 +27,7 @@ if __name__ == "__main__":
         print(f"Настройки по умолчанию изменены на: {args.set_default}")
         exit(0)
 
-    default_setting = load_setting()
+    setting = load_setting()
 
     if args.no_gui:
         start_bot()
@@ -31,15 +36,15 @@ if __name__ == "__main__":
     elif args.gui:
         start_bot_gui()
 
-    if default_setting == "no-gui":
+    if setting["mode"] == "no-gui":
         start_bot()
-    elif default_setting == "web":
+    elif setting["mode"] == "web":
         start_bot_web()
-    elif default_setting == "gui":
+    elif setting["mode"] == "gui":
         start_bot_gui()
     else:
         sys.exit(
-            f"Неверное значение интерфейса по умолчанию: {default_setting}. "
+            f"Неверное значение интерфейса по умолчанию: {setting}. "
             f"Для установки нового значения, используйте --set-default <значение>. "
             f"Доступные значения: gui, no-gui, web"
         )

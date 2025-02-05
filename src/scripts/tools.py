@@ -2,27 +2,8 @@ import json
 import os
 
 from src.scripts.chatbot import ChatBot
-from src.scripts.config import DEFAULT_SETTINGS_FILE
+from src.scripts.config import SETTINGS_FILE
 from src.scripts.gui import show_chatbot_interface
-
-
-def load_setting():
-    """
-    Loads the default interface setting from a settings file.
-
-    Checks if the settings file exists and reads the default interface setting from it.
-    If the file does not exist or the default setting is not found, returns "gui".
-
-    Returns:
-    str: The default interface setting, either "gui", "no-gui", or "web".
-    """
-
-    if os.path.exists(DEFAULT_SETTINGS_FILE):
-        with open(DEFAULT_SETTINGS_FILE, "r") as file:
-            settings = json.load(file)
-            return settings.get("mode")
-
-    return "gui"
 
 
 def save_setting(setting: str, arg: str):
@@ -39,13 +20,13 @@ def save_setting(setting: str, arg: str):
 
     settings = {}
 
-    if os.path.exists(DEFAULT_SETTINGS_FILE):
-        with open(DEFAULT_SETTINGS_FILE, "r") as file:
+    if os.path.exists(SETTINGS_FILE):
+        with open(SETTINGS_FILE, "r") as file:
             settings = json.load(file)
 
     settings[arg] = setting
 
-    with open(DEFAULT_SETTINGS_FILE, "w") as file:
+    with open(SETTINGS_FILE, "w") as file:
         json.dump(settings, file, indent=4)
 
 

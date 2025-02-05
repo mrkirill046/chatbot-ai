@@ -1,3 +1,5 @@
 {
-    "mode": "gui"
+    "mode": "gui",
+    "lang": "ru",
+    "units": "metric"
 }
