@@ -1,6 +1,7 @@
 import nltk
 import pickle
 
+from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from src.scripts.config import INTENTS, WORDS_PATH, CLASSES_PATH
 
@@ -22,7 +23,9 @@ def clean_up_sentence(sentence: str):
     """
 
     sentence_words = nltk.word_tokenize(sentence)
-    return [lemmatizer.lemmatize(w.lower()) for w in sentence_words]
+    stop_words = set(stopwords.words("russian"))
+
+    return [lemmatizer.lemmatize(w.lower()) for w in sentence_words if w.lower() not in stop_words]
 
 
 def bow(sentence: str, words: list):
