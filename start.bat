@@ -1,2 +1,2 @@
 @echo off
-start "" python.exe main.py
+start "" python.exe main.py --web
