@@ -4,6 +4,7 @@ import os
 from src.scripts.chatbot import ChatBot
 from src.scripts.config import SETTINGS_FILE
 from src.scripts.gui import show_chatbot_interface
+from src.scripts.web import open_chatbot_web
 
 
 def save_setting(setting: str, arg: str):
@@ -38,6 +39,7 @@ def start_bot_web():
     """
 
     print("Запуск чат-бота в веб-режиме.")
+    open_chatbot_web()
 
 
 def start_bot_gui():
