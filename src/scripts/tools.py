@@ -1,34 +1,6 @@
-import json
-import os
-
 from src.scripts.chatbot import ChatBot
-from src.scripts.config import SETTINGS_FILE
 from src.scripts.gui import show_chatbot_interface
 from src.scripts.web import open_chatbot_web
-
-
-def save_setting(setting: str, arg: str):
-    """
-    Saves the default interface setting to a settings file.
-
-    Checks if the settings file exists and reads it. Then updates the default
-    interface setting with the given setting and writes back to the file.
-    If the file does not exist, it will be created.
-
-    Parameters:
-    setting (str): The default interface setting, either "gui", "no-gui", or "web".
-    """
-
-    settings = {}
-
-    if os.path.exists(SETTINGS_FILE):
-        with open(SETTINGS_FILE, "r") as file:
-            settings = json.load(file)
-
-    settings[arg] = setting
-
-    with open(SETTINGS_FILE, "w") as file:
-        json.dump(settings, file, indent=4)
 
 
 def start_bot_web():

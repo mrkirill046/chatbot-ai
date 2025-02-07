@@ -7,7 +7,7 @@ APP_NAME = f"Chatbot AI - {BOT_NAME}"
 OUTPUT_DIR = "output"
 SRC_PATH = "src"
 
-MODEL_PATH = os.path.join(OUTPUT_DIR, "chatbot_model.h5")
+MODEL_PATH = os.path.join(OUTPUT_DIR, "chatbot_model.keras")
 WORDS_PATH = os.path.join(OUTPUT_DIR, "words.pkl")
 CLASSES_PATH = os.path.join(OUTPUT_DIR, "classes.pkl")
 LABEL_ENCODER_PATH = os.path.join(OUTPUT_DIR, "label_encoder.pkl")
@@ -16,13 +16,15 @@ JSONS_PATH = os.path.join(SRC_PATH, "jsons")
 INTENTS_PATH = os.path.join(JSONS_PATH, "intents.json")
 
 SETTINGS_FILE = os.path.join(JSONS_PATH, "settings.json")
+USER_DATA_FILE = os.path.join(JSONS_PATH, "user.json")
 
 WORDS = []
 CLASSES = []
 DOCUMENTS = []
 
-INTENTS = json.load(open(INTENTS_PATH, "r", encoding="utf-8"))
-MODEL_EPOCHS = 300
+INTENTS = json.load(open(INTENTS_PATH, "r", encoding="utf-8"))["intents"]
+MODEL_EPOCHS = 1000
+MODEL_PATIENCE = 100
 
 BACKGROUND_COLOR = "black"
 TEXT_COLOR = "white"

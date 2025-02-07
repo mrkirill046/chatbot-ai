@@ -1,3 +1,4 @@
+import re
 import nltk
 import pickle
 
@@ -22,6 +23,7 @@ def clean_up_sentence(sentence: str):
     list: A list of lower case lemmatized words from the sentence.
     """
 
+    sentence = re.sub(r'[^\w\s]', '', sentence)
     sentence_words = nltk.word_tokenize(sentence)
     stop_words = set(stopwords.words("russian"))
 
@@ -60,7 +62,7 @@ def preprocess_data():
 
     words, classes, documents = [], [], []
 
-    for intent in INTENTS["intents"]:
+    for intent in INTENTS:
         for pattern in intent["patterns"]:
             word_list = nltk.word_tokenize(pattern)
             words.extend(word_list)

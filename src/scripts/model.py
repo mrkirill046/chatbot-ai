@@ -1,12 +1,12 @@
-import os
 import numpy as np
 import pickle
 
 from tensorflow.keras.models import Sequential, load_model
 from tensorflow.keras.layers import Dense, Dropout
-from tensorflow.keras.optimizers import SGD
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.callbacks import EarlyStopping
 from sklearn.preprocessing import LabelEncoder
-from src.scripts.config import MODEL_PATH, WORDS_PATH, CLASSES_PATH, LABEL_ENCODER_PATH, OUTPUT_DIR, MODEL_EPOCHS
+from src.scripts.config import *
 from src.scripts.preprocessing import preprocess_data, bow
 
 
@@ -26,14 +26,14 @@ def create_model(input_size: int, output_size: int):
     """
 
     model = Sequential()
-    model.add(Dense(128, input_shape=(input_size,), activation="relu"))
-    model.add(Dropout(0.5))
-    model.add(Dense(64, activation="relu"))
-    model.add(Dropout(0.5))
+    model.add(Dense(265, input_shape=(input_size,), activation="relu"))
+    model.add(Dropout(0.4))
+    model.add(Dense(128, activation="relu"))
+    model.add(Dropout(0.4))
     model.add(Dense(output_size, activation="softmax"))
     model.compile(
         loss="sparse_categorical_crossentropy",
-        optimizer=SGD(learning_rate=0.01, momentum=0.9),
+        optimizer=Adam(learning_rate=0.001),
         metrics=["accuracy"]
     )
 
@@ -71,7 +71,14 @@ def load_or_train_model():
         pickle.dump(label_encoder, open(LABEL_ENCODER_PATH, "wb"))
 
         model = create_model(len(words), len(classes))
-        model.fit(np.array(training_data), np.array(training_labels), epochs=MODEL_EPOCHS, batch_size=5, verbose=1)
+        early_stopping = EarlyStopping(monitor="accuracy", patience=MODEL_PATIENCE, restore_best_weights=True)
+
+        model.fit(
+            np.array(training_data),
+            np.array(training_labels),
+            epochs=MODEL_EPOCHS, batch_size=5, verbose=1,
+            callbacks=[early_stopping]
+        )
 
         model.save(MODEL_PATH)
         pickle.dump(words, open(WORDS_PATH, "wb"))

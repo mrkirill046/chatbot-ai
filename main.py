@@ -2,14 +2,13 @@ import argparse
 import sys
 
 from dotenv import load_dotenv
-
-from src.scripts.settings import load_setting
-from src.scripts.tools import save_setting, start_bot, start_bot_gui, start_bot_web
+from src.scripts.settings import load_setting, save_setting
+from src.scripts.tools import start_bot, start_bot_gui, start_bot_web
 
 if __name__ == "__main__":
     load_dotenv()
 
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(prog="mika")
 
     parser.add_argument("--no-gui", action="store_true", help="Запуск без GUI")
     parser.add_argument("--gui", action="store_true", help="Запуск GUI")
@@ -35,8 +34,7 @@ if __name__ == "__main__":
         start_bot_web()
     elif args.gui:
         start_bot_gui()
-
-    if setting["mode"] == "no-gui":
+    elif setting["mode"] == "no-gui":
         start_bot()
     elif setting["mode"] == "web":
         start_bot_web()

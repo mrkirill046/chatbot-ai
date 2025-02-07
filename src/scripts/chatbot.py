@@ -6,7 +6,7 @@ import spacy
 from src.scripts.preprocessing import bow
 from src.scripts.config import INTENTS
 from src.scripts.model import load_or_train_model
-from src.scripts.settings import load_setting
+from src.scripts.settings import load_setting, load_user_data, save_user_data
 from src.scripts.weather import get_weather
 
 
@@ -56,6 +56,25 @@ class ChatBot:
 
         return None
 
+    def extract_name(self, sentence: str):
+        """
+        Extracts the name from a given sentence using the spaCy NLP library.
+
+        Parameters:
+        sentence (str): The sentence from which to extract the name.
+
+        Returns:
+        str or None: The name if found, otherwise None.
+        """
+
+        doc = self.nlp(sentence)
+
+        for ent in doc.ents:
+            if ent.label_ == "PER":
+                return ent.text.capitalize()
+
+        return None
+
     def respond(self, sentence: str):
         """
         Generates a response for the given sentence by predicting its class and selecting a random response
@@ -72,7 +91,7 @@ class ChatBot:
         predicted_label = self.label_encoder.inverse_transform([np.argmax(predicted_class)])
         tag = predicted_label[0]
 
-        for intent in INTENTS["intents"]:
+        for intent in INTENTS:
             if intent["tag"] == tag:
                 response = random.choice(intent["responses"])
 
@@ -97,6 +116,24 @@ class ChatBot:
                         )
                     else:
                         response = "Не удалось получить данные о погоде. Попробуйте позже."
+                elif tag == "acquaintance":
+                    name = self.extract_name(sentence)
+
+                    if name:
+                        save_user_data({"name": name})
+                        response = response.replace("{name}", name)
+                    else:
+                        response = "Не могу распознать ваше имя. Пожалуйста, повторите."
+                elif tag == "user_name":
+                    try:
+                        name = load_user_data()["name"]
+
+                        if name:
+                            response = response.replace("{name}", name)
+                        else:
+                            response = "Я еще не знаю ваше имя. Давайте познакомимся."
+                    except:
+                        response = "Я не знаю как вас зовут. Пожалуйста, давайте познакомимся."
 
                 return response
 
