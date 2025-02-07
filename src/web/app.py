@@ -11,7 +11,7 @@ def index():
     The root route, which renders the `index.html` template.
 
     Returns:
-        A rendered `index.html` template.
+    A rendered `index.html` template.
     """
 
     return render_template('index.html')
@@ -25,7 +25,7 @@ def chat():
     The request body should contain a JSON object with a "message" key, the value of which is a string representing the user's message.
 
     Returns:
-        A JSON object with a "response" key, the value of which is a string representing the chatbot's response to the user's message.
+    A JSON object with a "response" key, the value of which is a string representing the chatbot's response to the user's message.
     """
 
     user_message = request.json.get("message")

@@ -135,6 +135,9 @@ class ChatBot:
                     except:
                         response = "Я не знаю как вас зовут. Пожалуйста, давайте познакомимся."
 
+                if random.random() < 0.5 and "emoji" in intent:
+                    response += f" {random.choice(intent['emoji'])}"
+
                 return response
 
         return "Извините, я не понимаю вас."
